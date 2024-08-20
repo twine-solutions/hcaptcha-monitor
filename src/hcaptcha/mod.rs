@@ -60,7 +60,7 @@ impl HCaptcha {
             .context("Failed to get bytes from response")?;
 
         let file_path = path.join(file);
-        let comment = format!("/* Source URL: {}*/\n", url_path);
+        let comment = format!("/* Source URL: {} */\n", url_path);
         let mut final_content = comment.into_bytes();
         final_content.extend_from_slice(&content);
 

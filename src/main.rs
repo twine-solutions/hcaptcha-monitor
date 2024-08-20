@@ -89,8 +89,9 @@ async fn process_websites(config: &Config) -> Result<()> {
 
                         info!("Downloading hCaptcha contents for {}", client.host);
                         if let Ok(url) = client.get_resource_url(result.version.clone()).await {
+                            let resource_url = format!("https://newassets.hcaptcha.com{}", url);
                             for script in &config.scripts {
-                                match client.download_contents(&url, script, Path::new(&dir_path)).await {
+                                match client.download_contents(&resource_url, script, Path::new(&dir_path)).await {
                                     Ok(_) => info!("Downloaded {} to {}/{}", script, dir_path, script),
                                     Err(e) => info!("Error downloading {}: {}", script, e),
                                 }
