@@ -1,0 +1,18 @@
+{
+  "interval": 25,
+  "scripts": [
+    "hsl.js",
+    "hsw.js",
+    "hsj.js"
+  ],
+  "websites": [
+    {
+      "host": "discord.com",
+      "sitekey": "4c672d35-0701-42b2-88c3-78380b0db560"
+    },
+    {
+      "host": "accounts.hcaptcha.com",
+      "sitekey": "a5f74b19-9e45-40e0-b45d-47ff91b7a6c2"
+    }
+  ]
+}
