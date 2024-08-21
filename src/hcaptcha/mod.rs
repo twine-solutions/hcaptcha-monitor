@@ -1,5 +1,4 @@
 use std::path::Path;
-use std::sync::Mutex;
 
 use anyhow::{Context, Result};
 use base64::{engine::general_purpose, Engine as _};
@@ -11,42 +10,15 @@ pub struct HCaptcha {
     client: Client,
     pub host: String,
     pub sitekey: String,
-    global_version: &'static Mutex<String>,
-}
-
-#[derive(Debug)]
-pub struct WorkResult {
-    pub version: String,
-    pub version_changed: bool,
-    pub previous_version: String,
 }
 
 impl HCaptcha {
-    pub fn new(host: &str, sitekey: &str, global_version: &'static Mutex<String>) -> Self {
+    pub fn new(host: &str, sitekey: &str) -> Self {
         Self {
             client: Client::new(),
             host: host.to_string(),
             sitekey: sitekey.to_string(),
-            global_version,
         }
-    }
-
-    pub async fn check(&self) -> Result<WorkResult> {
-        let current_version = self.get_version().await?;
-
-        let mut global_version = self.global_version.lock().unwrap();
-        let version_changed = current_version != *global_version;
-        let previous_version = global_version.clone();
-
-        if version_changed {
-            *global_version = current_version.clone();
-        }
-
-        Ok(WorkResult {
-            version: current_version,
-            version_changed,
-            previous_version,
-        })
     }
 
     pub async fn download_contents(&self, url: &str, file: &str, path: &Path) -> Result<()> {
@@ -113,7 +85,7 @@ impl HCaptcha {
             .map(ToString::to_string)
     }
 
-    async fn get_version(&self) -> Result<String> {
+    pub async fn get_version(&self) -> Result<String> {
         let response = self.client.get("https://hcaptcha.com/1/api.js?render=explicit&onload=hcaptchaOnLoad")
             .send()
             .await

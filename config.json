@@ -1,5 +1,6 @@
 {
-  "interval": 25,
+  "interval": 0,
+  "discord_webhook": "https://discord.com/api/webhooks/..../....",
   "scripts": [
     "hsl.js",
     "hsw.js",
