@@ -22,7 +22,7 @@ impl HCaptcha {
     }
 
     pub async fn download_contents(&self, url: &str, file: &str, path: &Path) -> Result<()> {
-        let url_path = format!("{}/{}", url, file);
+        let url_path = format!("https://newassets.hcaptcha.com{}/{}", url, file);
         let response = self.client.get(&url_path)
             .send()
             .await
